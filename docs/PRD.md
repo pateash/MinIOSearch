@@ -30,9 +30,11 @@ curl --location 'http://localhost:8080/api/v1/search?w=borneo' \
 3. **Documentation**: Code should be well documented and understandable.
 4. **Setup**: Reference a provided docker-compose.yaml file for test environment setup.
 
-## Out of Scope ( Included )
-- Detailed UI design for the search service.
-- Authentication and authorization for API access.
+## Out of Scope 
+- Detailed UI design for the search service. ( Included )
+- Basic Authentication and authorization for API access.( Included ) 
+- Advanced token based authentication
+- Low level design ( LLD )
 
 
 

@@ -76,6 +76,7 @@ public class FileIndexingService {
         /*
          * for better tokenization we are using Lucene, this removes spaces, punctuations and prepositions etc. like this/the and retains meaningful words
          * */
+//        System.out.println(content.substring(0,Math.min(100,content.length())));
         List<String> words = fileProcessor.tokenizeString(content);
         Set<String> uniqueWords = new HashSet<>(fileProcessor.tokenizeString(content));
         System.out.println("Indexing file, Total tokens: " + words.size());

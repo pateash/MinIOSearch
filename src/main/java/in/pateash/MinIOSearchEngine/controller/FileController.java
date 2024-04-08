@@ -3,6 +3,10 @@ package in.pateash.MinIOSearchEngine.controller;
 import in.pateash.MinIOSearchEngine.dto.WordLocationDTO;
 import in.pateash.MinIOSearchEngine.service.FileIndexingService;
 import in.pateash.MinIOSearchEngine.utils.Response;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +19,7 @@ import static in.pateash.MinIOSearchEngine.utils.Status.ERROR;
 import static in.pateash.MinIOSearchEngine.utils.Status.SUCCESS;
 
 @RestController
+@Tag(name = "Search API")
 @RequestMapping("/api/v1")
 public class FileController {
     private final FileIndexingService fileIndexingService;
@@ -30,8 +35,8 @@ public class FileController {
         try {
             String uploadFileName = fileIndexingService.indexFile(file);
             return ResponseEntity.ok(
-                    new Response(SUCCESS,"File uploaded and indexed successfully: " + uploadFileName, null)
-                    );
+                    new Response(SUCCESS, "File uploaded and indexed successfully: " + uploadFileName, null)
+            );
         } catch (Exception e) {
             // Log the exception details
             return new ResponseEntity<>(
@@ -41,29 +46,35 @@ public class FileController {
         }
     }
 
+    @Operation(summary = "Search a file in Minio using word(?w=) or file location(?f=)", description = "Returns list of matched files with their location in Minio.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully searched"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(value = "/search")
-    public ResponseEntity<Response> search(@RequestParam(value = "w" , required = false) String word, @RequestParam(value = "f", required = false) String filepath) {
-        if(word==null && filepath==null)
+    public ResponseEntity<Response> search(@RequestParam(value = "w", required = false) String word, @RequestParam(value = "f", required = false) String filepath) {
+        if (word == null && filepath == null)
             throw new MinIOSearchException("Please provide either  word using ?w=, or filepath using ?f= for search");
         List<WordLocationDTO> searches;
         try {
-        if(word!=null && filepath!=null)
-            searches = fileIndexingService.searchUsingWordAndFilePath(word,filepath);
+            if (word != null && filepath != null)
+                searches = fileIndexingService.searchUsingWordAndFilePath(word, filepath);
             else
-            searches = word!=null ? fileIndexingService.search(word) : fileIndexingService.searchUsingFilePath(filepath);
+                searches = word != null ? fileIndexingService.search(word) : fileIndexingService.searchUsingFilePath(filepath);
 
             return ResponseEntity.ok(
-                    new Response(SUCCESS, "Total searches found: " +searches.size(), searches)
+                    new Response(SUCCESS, "Total searches found: " + searches.size(), searches)
             );
         } catch (Exception e) {
             throw new MinIOSearchException(e.getMessage());
         }
     }
 
+    @Operation(summary = "Hello world, Test API")
     @GetMapping("/hello")
     public ResponseEntity<Response> hello(@RequestParam("name") String name) {
         return new ResponseEntity<>(
-                new Response(SUCCESS, "hello "+name, null),
+                new Response(SUCCESS, "hello " + name, null),
                 HttpStatus.OK);
     }
 //    @PostMapping("/helloPost")
