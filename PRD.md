@@ -1,5 +1,4 @@
 # Product Requirement Document (PRD)
-[link](./PRD.md)
 
 ## Purpose
 The purpose of this document is to outline the requirements for a search service application capable of searching content within documents stored in MinIO.

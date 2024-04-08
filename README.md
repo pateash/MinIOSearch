@@ -1,7 +1,7 @@
 # MinIOSearch
 
 ### Product Requirements Documents (PRD)
-[here](./PRD.md)
+Please find the docs [here](./PRD.md)
 
 ### Local Setup
 1. Run the Docker Compose file with the following command:
