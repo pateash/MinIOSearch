@@ -1,10 +1,10 @@
 # MinIOSearch
 
 ### Product Requirements Documents (PRD)
-Please find the docs [here](./docs/PRD.md)
+Please find prd [here](./docs/PRD.md)
 
 ### High level Design (HLD)
-Please find the docs [here](./docs/img.png)
+Please find the hld [here](./docs/img.png)
 
 ### Local Setup
 1. Run the Docker Compose file with the following command:
