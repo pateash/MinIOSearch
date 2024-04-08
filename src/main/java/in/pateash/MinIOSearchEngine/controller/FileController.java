@@ -66,10 +66,10 @@ public class FileController {
                 new Response(SUCCESS, "hello "+name, null),
                 HttpStatus.OK);
     }
-    @PostMapping("/helloPost")
-    public ResponseEntity<Response> helloPost(@RequestParam("name") String name) {
-        return new ResponseEntity<>(
-                new Response(SUCCESS, "hello Post "+name, null),
-                HttpStatus.OK);
-    }
+//    @PostMapping("/helloPost")
+//    public ResponseEntity<Response> helloPost(@RequestParam("name") String name) {
+//        return new ResponseEntity<>(
+//                new Response(SUCCESS, "hello Post "+name, null),
+//                HttpStatus.OK);
+//    }
 }
