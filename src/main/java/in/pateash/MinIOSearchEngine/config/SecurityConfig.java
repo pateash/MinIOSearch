@@ -36,9 +36,11 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**")) // disabling CSRF for avoiding issue with POST
 //for PROD setup:                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())) // disabling CSRF for avoiding issue with POST
-                .authorizeHttpRequests(request -> request.anyRequest()
-                        .authenticated())
-                .httpBasic(Customizer.withDefaults())
+                .authorizeHttpRequests(
+                        request -> request
+                                .anyRequest()
+                        .authenticated()
+                ).httpBasic(Customizer.withDefaults())
                 .build();
     }
 

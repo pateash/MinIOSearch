@@ -21,11 +21,11 @@ import static in.pateash.MinIOSearchEngine.utils.Status.SUCCESS;
 @RestController
 @Tag(name = "Search API")
 @RequestMapping("/api/v1")
-public class FileController {
+public class SearchController {
     private final FileIndexingService fileIndexingService;
 
     @Autowired
-    public FileController(FileIndexingService fileIndexingService) {
+    public SearchController(FileIndexingService fileIndexingService) {
         this.fileIndexingService = fileIndexingService;
     }
 
