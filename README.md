@@ -22,7 +22,6 @@ Please find the hld [here](./docs/img.png)
 1. Access Elasticsearch:
    - Elasticsearch can be accessed at [elasticsearch](http://localhost:9200)
    - Index used here is `file-words`
-   - No authentication is set up for elastic search ( not recommended for Production )
 
 
 ### API Docs
