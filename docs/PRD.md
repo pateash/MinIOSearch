@@ -7,17 +7,21 @@ The purpose of this document is to outline the requirements for a search service
 
 1. Implement the solution capable of searching document content.
 2. Provide a demonstration of the application.
-3. Optional: Write a PRD for the problem statement.
+3. Writing a PRD for the problem statement.
 
 ## Functional Requirements
 
-1. **Connection to MinIO**: Establish a real-time connection with MinIO to access recently added data.
+1. **Connection to MinIO**: Establish a connection with MinIO to access added data.
 
-2. **Document Formats**: Handle `.txt` and `.log` files for the demonstration. Optionally support `.pdf` and `.docx` files, extracting text content with Apache Tika.
+2. **Document Formats**: Handle `.txt` and `.log` files for the demonstration. supporting `.pdf` and `.docx` files, extracting text content with Apache Tika.
 
 3. **Indexing and Search**: Index the content of the files to enable full-text search capabilities, potentially using Elasticsearch.
 
-4. **Search API**: Provide an API that accepts a search term/token and returns a list of files and paths in MinIO, e.g., `curl https://<search-service-host>/search?q=”@gmail.com”`.
+4. **Search API**: Provide an API that accepts a search term/token and returns a list of files and paths in MinIO, e.g., 
+```bash
+curl --location 'http://localhost:8080/api/v1/search?w=borneo' \
+--header 'Authorization: Basic dXNlcjpzZWNyZXQ='
+```
 
 ## Non-Functional Requirements
 
@@ -26,17 +30,9 @@ The purpose of this document is to outline the requirements for a search service
 3. **Documentation**: Code should be well documented and understandable.
 4. **Setup**: Reference a provided docker-compose.yaml file for test environment setup.
 
-## Out of Scope
-
+## Out of Scope ( Included )
 - Detailed UI design for the search service.
 - Authentication and authorization for API access.
 
-## Considerations
 
-- The solution should reflect the ability to design and code with high standards.
-- Code samples from the web can be used but should be explained.
-- Reach out via email for clarifications.
 
----
-
-For more details on the MinIO product overview, visit [MinIO Overview](https://min.io/product/overview).
