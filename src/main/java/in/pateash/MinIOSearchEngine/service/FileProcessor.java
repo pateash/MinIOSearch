@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.StringReader;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +37,9 @@ public class FileProcessor {
     public String preProcess(MultipartFile multipartFile) {
         String fileName = multipartFile.getOriginalFilename();
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
-        String uploadFileName = String.format("%s_%s", fileName, now.format(formatter));
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+//        String uploadFileName = String.format("%s_%s", fileName, now.format(formatter));
+        String uploadFileName = fileName;
         System.out.println("Upload file name :" + uploadFileName);
         return uploadFileName;
     }
