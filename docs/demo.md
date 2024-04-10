@@ -1,5 +1,6 @@
 
 ## Demo workflow 
+0. Start docker and run   `docker-compose up -d`
 1. Show PRD
 2. Show HLD
 1. Delete elastic search index
