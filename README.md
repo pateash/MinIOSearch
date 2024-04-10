@@ -29,17 +29,9 @@ Run content of  [file](./setup_rabbit.sh) inside rabbitMQ pod
     - Use the credentials `minioadmin` for both the username and password (change these in production).
     - documents uploaded throw `API` are available in bucket `docs-bucket`
     - setting `put` the event from MinIO to RabbitMQ using ( run inside MinIO pod )
-```bash
-mc alias set myminio http://localhost:9000 minioadmin minioadmin
-#rabbitmq is service name which will refer to host of rabbigMQ
-mc admin config set myminio notify_amqp:1 exchange="minioExchange" exchange_type="direct" routing_key="minio" url="amqp://user:secret@rabbitmq:5672/my_vhost" queue_dir="" queue_limit="0" auto_deleted="false" delivery_mode="2"
-mc admin service restart myminio
-# use your bucket name ( delete if already exists )
-mc event add myminio/docs-bucket arn:minio:sqs::1:amqp --event put
-#mc event add myminio/docs-bucket arn:minio:sqs::1:amqp --event s3:ObjectCreated:* --prefix "logs/"
-
+```text
+Run content of  [file](./setup_minio.sh) inside minIO pod
 ```
-
 1. Access Elasticsearch:
     - Elasticsearch can be accessed at [elasticsearch](http://localhost:9200)
     - Index used here is `file-words`
