@@ -36,6 +36,8 @@ mc admin config set myminio notify_amqp:1 exchange="minioExchange" exchange_type
 mc admin service restart myminio
 # use your bucket name ( delete if already exists )
 mc event add myminio/docs-bucket arn:minio:sqs::1:amqp --event put
+#mc event add myminio/docs-bucket arn:minio:sqs::1:amqp --event s3:ObjectCreated:* --prefix "logs/"
+
 ```
 
 1. Access Elasticsearch:
