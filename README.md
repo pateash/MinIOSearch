@@ -32,9 +32,10 @@ Run content of  [file](./setup_rabbit.sh) inside rabbitMQ pod
 ```bash
 mc alias set myminio http://localhost:9000 minioadmin minioadmin
 #rabbitmq is service name which will refer to host of rabbigMQ
-mc admin config set myminio notify_amqp:1 exchange="minioExchange" exchange_type="direct" routing_key="minio" url="amqp://user:secret@rabbitmq:5672/vhost" queue_dir="" queue_limit="0" auto_deleted="false" delivery_mode="2"
+mc admin config set myminio notify_amqp:1 exchange="minioExchange" exchange_type="direct" routing_key="minio" url="amqp://user:secret@rabbitmq:5672/my_vhost" queue_dir="" queue_limit="0" auto_deleted="false" delivery_mode="2"
 mc admin service restart myminio
 # use your bucket name
+mc event remove myminio/docs-bucket arn:minio:sqs::yourarn
 mc event add myminio/docs-bucket arn:minio:sqs::1:amqp --event put
 ```
 
