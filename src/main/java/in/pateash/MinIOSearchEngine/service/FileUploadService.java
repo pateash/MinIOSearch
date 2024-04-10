@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import static java.lang.Math.min;
 
 @Service
-public class FileIndexingService {
+public class FileUploadService {
 
     private final MinioClient minioClient;
     private final WordLocationRepository wordLocationRepository;
@@ -33,7 +33,7 @@ public class FileIndexingService {
     String bucketName;
 
     @Autowired
-    public FileIndexingService(MinioClient minioClient, WordLocationRepository wordLocationRepository, FileProcessor fileProcessor) {
+    public FileUploadService(MinioClient minioClient, WordLocationRepository wordLocationRepository, FileProcessor fileProcessor) {
         this.minioClient = minioClient;
         this.wordLocationRepository = wordLocationRepository;
         this.fileProcessor = fileProcessor;

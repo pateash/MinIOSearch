@@ -1,7 +1,7 @@
 package in.pateash.MinIOSearchEngine.controller;
 
 import in.pateash.MinIOSearchEngine.dto.WordLocationDTO;
-import in.pateash.MinIOSearchEngine.service.FileIndexingService;
+import in.pateash.MinIOSearchEngine.service.FileUploadService;
 import in.pateash.MinIOSearchEngine.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,18 +22,18 @@ import static in.pateash.MinIOSearchEngine.utils.Status.SUCCESS;
 @Tag(name = "Search API")
 @RequestMapping("/api/v1")
 public class SearchController {
-    private final FileIndexingService fileIndexingService;
+    private final FileUploadService fileUploadService;
 
     @Autowired
-    public SearchController(FileIndexingService fileIndexingService) {
-        this.fileIndexingService = fileIndexingService;
+    public SearchController(FileUploadService fileUploadService) {
+        this.fileUploadService = fileUploadService;
     }
 
     @CrossOrigin
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<Response> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
-            String uploadFileName = fileIndexingService.indexFile(file);
+            String uploadFileName = fileUploadService.indexFile(file);
             return ResponseEntity.ok(
                     new Response(SUCCESS, "File uploaded and indexed successfully: " + uploadFileName, null)
             );
@@ -58,9 +58,9 @@ public class SearchController {
         List<WordLocationDTO> searches;
         try {
             if (word != null && filepath != null)
-                searches = fileIndexingService.searchUsingWordAndFilePath(word, filepath);
+                searches = fileUploadService.searchUsingWordAndFilePath(word, filepath);
             else
-                searches = word != null ? fileIndexingService.search(word) : fileIndexingService.searchUsingFilePath(filepath);
+                searches = word != null ? fileUploadService.search(word) : fileUploadService.searchUsingFilePath(filepath);
 
             return ResponseEntity.ok(
                     new Response(SUCCESS, "Total searches found: " + searches.size(), searches)
