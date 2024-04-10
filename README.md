@@ -1,5 +1,23 @@
 # MinIOSearch
+- This Repo contains services which allows user to upload files like text/log(PLAIN) along with NON_PLAIN file types (eg. PDF, Docx, CSV, EXCEL)
+- the services automatically generates an event when a files is added this goes to RABBITMQ and then the file is processed and indexed to Elastic search.
+- we can search for a word(contains search), the API will return list of files in which this word exists in MinIO.
+```bash
+curl --location 'http://localhost:8080/api/v1/search?w=aarch64' \
+--header 'Authorization: Basic dXNlcjpzZWNyZXQ='
+```
+- we can also search using file path(contains search)
+```bash
+curl --location 'http://localhost:8080/api/v1/search?f=assignment.pdf' \
+--header 'Authorization: Basic dXNlcjpzZWNyZXQ='
+```
+- User can even combine these 2 filters
+```bash
+curl --location 'http://localhost:8080/api/v1/search?f=pdf&w=python' \
+--header 'Authorization: Basic dXNlcjpzZWNyZXQ='
+```
 
+  
 ### Product Requirements Documents (PRD)
 
 Please find prd [here](./docs/PRD.md)
