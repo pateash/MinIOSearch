@@ -5,8 +5,7 @@
 Please find prd [here](./docs/PRD.md)
 
 ### High level Design (HLD)
-
-Please find the hld [here](./docs/img.png)
+![img](./docs/hld.png)
 
 ### Local Setup
 
