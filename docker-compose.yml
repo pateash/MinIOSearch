@@ -39,6 +39,7 @@ services:
     ports:
       - "5672:5672" # AMQP protocol port
       - "15672:15672" # Management UI port
+      - "15675:15675" # MQTT
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     # Optional: configuration for restart policy
