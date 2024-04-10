@@ -3,11 +3,13 @@ package in.pateash.MinIOSearchEngine.service;
 import in.pateash.MinIOSearchEngine.dto.WordLocationDTO;
 import in.pateash.MinIOSearchEngine.entity.WordLocationEntity;
 import in.pateash.MinIOSearchEngine.repository.WordLocationRepository;
+import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +23,7 @@ import java.util.stream.Collectors;
 import static java.lang.Math.min;
 
 @Service
-public class FileIndexingService {
+public class FileUploadService {
 
     private final MinioClient minioClient;
     private final WordLocationRepository wordLocationRepository;
@@ -33,24 +35,26 @@ public class FileIndexingService {
     String bucketName;
 
     @Autowired
-    public FileIndexingService(MinioClient minioClient, WordLocationRepository wordLocationRepository, FileProcessor fileProcessor) {
+    public FileUploadService(MinioClient minioClient, WordLocationRepository wordLocationRepository, FileProcessor fileProcessor) {
         this.minioClient = minioClient;
         this.wordLocationRepository = wordLocationRepository;
         this.fileProcessor = fileProcessor;
     }
+
     private String extractTextUsingTika(MultipartFile file) throws Exception {
         Tika tika = new Tika();
         try (InputStream input = file.getInputStream()) {
             return tika.parseToString(input);
         }
     }
-    public String indexFile(MultipartFile multipartFile) throws Exception {
+
+    public String uploadFile(MultipartFile multipartFile) throws Exception {
 //        String fileName = multipartFile.getOriginalFilename();
         String uploadFileName = fileProcessor.preProcess(multipartFile);
         // Upload file to MinIO
         String fileUrl = uploadFileToMinIO(multipartFile, bucketName, uploadFileName);
         // Process file and index words
-        indexWords(multipartFile, bucketName, fileUrl, uploadFileName);
+//        indexWords(multipartFile, bucketName, fileUrl, uploadFileName);
 
         return uploadFileName;
     }
@@ -66,7 +70,25 @@ public class FileIndexingService {
         );
         String filePath = String.format("/%s/%s", bucketName, fileName);// MinIO URL path
         System.out.println("File Uploaded to Minio: " + filePath);
+        System.out.println("==========================================\n");
         return filePath;
+    }
+
+    public void indexFile(String fileUrl) {
+        String bucketName = fileUrl.split("/")[0];
+        String fileName = fileUrl.split("/")[1];
+        try (InputStream stream = minioClient.getObject(GetObjectArgs.builder()
+                .bucket(bucketName)
+                .object(fileName)
+                .build())) {
+            // Convert InputStream to MultipartFile
+            MultipartFile multipartFile = new MockMultipartFile(fileName, fileName, "text/plain", stream);
+            String filePath = String.format("/%s/%s", bucketName, fileName);// MinIO URL path
+            System.out.println("Indexing file:" + filePath);
+            indexWords(multipartFile, bucketName, filePath, fileName);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void indexWords(MultipartFile multipartFile, String bucketName, String fileUrl, String fileName) throws Exception {
@@ -81,7 +103,7 @@ public class FileIndexingService {
         Set<String> uniqueWords = new HashSet<>(fileProcessor.tokenizeString(content));
         System.out.println("Indexing file, Total tokens: " + words.size());
         System.out.println("Indexing file, Unique tokens: " + uniqueWords.size() + "\n First 10 tokens");
-        System.out.println(uniqueWords.stream().toList().subList(0, min(uniqueWords.size(),10)));
+        System.out.println(uniqueWords.stream().toList().subList(0, min(uniqueWords.size(), 10)));
 
         List<WordLocationEntity> wordLocationEntityList = uniqueWords.stream().map(word ->
                 new WordLocationEntity(UUID.randomUUID().toString(), word, bucketName, fileUrl, fileName)
