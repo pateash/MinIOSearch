@@ -20,9 +20,9 @@ mc admin service restart myminio
 # remove all events
 mc event remove myminio/$BUCKET --force
 
-#mc event add myminio/$BUCKET arn:minio:sqs::1:amqp --event put
+mc event add myminio/$BUCKET arn:minio:sqs::1:amqp --event put
 # adding multiple at once
-mc event add myminio/$BUCKET arn:minio:sqs::1:amqp --event put,get,delete
+#mc event add myminio/$BUCKET arn:minio:sqs::1:amqp --event put,get,delete
 #--prefix "logs/"
 
 
