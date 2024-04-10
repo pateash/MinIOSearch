@@ -33,7 +33,7 @@ public class SearchController {
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<Response> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
-            String uploadFileName = fileUploadService.indexFile(file);
+            String uploadFileName = fileUploadService.uploadFile(file);
             return ResponseEntity.ok(
                     new Response(SUCCESS, "File uploaded and indexed successfully: " + uploadFileName, null)
             );
