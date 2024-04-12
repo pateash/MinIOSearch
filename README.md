@@ -33,7 +33,8 @@ Please find prd [here](./docs/PRD.md)
    docker-compose up -d
    ```
    This command starts the containers in the background.
-1. Accessing RabbigMQ
+
+2. Accessing RabbigMQ
    - RabbitMQ UI can be accessed at [rabbigMQUI](http://localhost:15672)
    - docs [here](https://docs.spring.io/spring-boot/docs/current/reference/html/messaging.html#messaging.amqp.rabbitmq)
    - creating exchange, vhost and queue in RabbitMQ for MinIO
@@ -41,7 +42,7 @@ Please find prd [here](./docs/PRD.md)
 Run content of  [file](./setup_rabbit.sh) inside rabbitMQ pod
 ```
 
-1. Access MinIO:
+3. Access MinIO:
     - MinIO Console (Web UI) is available at [minio](http://localhost:9001).
     - Use the credentials `minioadmin` for both the username and password (change these in production).
     - documents uploaded throw `API` are available in bucket `docs-bucket`
@@ -49,9 +50,13 @@ Run content of  [file](./setup_rabbit.sh) inside rabbitMQ pod
 ```text
 Run content of  [file](./setup_minio.sh) inside minIO pod
 ```
-1. Access Elasticsearch:
+4. Access Elasticsearch:
     - Elasticsearch can be accessed at [elasticsearch](http://localhost:9200)
     - Index used here is `file-words`
+
+5. Accessing Confluent Kafka
+   - Kafka control center is available [here](http://localhost:9021)
+   - quick-start [docs](https://docs.confluent.io/platform/current/platform-quickstart.html) 
 
 ### API Docs
 1. Run the application running at `localhost:8080`
